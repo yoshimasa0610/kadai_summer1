@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Souce">
+      <UniqueIdentifier>{56af5828-7db7-4b8e-b459-6f571feb2495}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Souce\BackGround">
+      <UniqueIdentifier>{f66e203b-a607-43e0-99ba-32c864ee53f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Souce\Input">
+      <UniqueIdentifier>{ca11fd13-236b-42a6-952d-d077d541fb32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Souce\GameSetting">
+      <UniqueIdentifier>{73da578d-baa8-456e-a915-d4e506e849e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Souce\Bullet">
+      <UniqueIdentifier>{f19cea92-2f4a-468b-ab8c-25cfcfb3d7ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Souce\Collision">
+      <UniqueIdentifier>{bb5626f6-ae7a-4363-9d7c-e5541b76e4ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Souce\Player">
+      <UniqueIdentifier>{fc56f8d5-f7e4-4c8b-b08b-08a6667ecc5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Souce\Enemy">
+      <UniqueIdentifier>{c4e7a292-435f-4e09-a4e1-bc4e75672a1e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\BackGround\BackGround.cpp">
+      <Filter>Souce\BackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Main.cpp">
+      <Filter>Souce</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Player\Player.cpp">
+      <Filter>Souce\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Input\Input.cpp">
+      <Filter>Souce\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Bullet\Bullet.cpp">
+      <Filter>Souce\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Bullet\BulletManager.cpp">
+      <Filter>Souce\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Enemy\Enemy.cpp">
+      <Filter>Souce\Enemy</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\BackGround\BackGround.h">
+      <Filter>Souce\BackGround</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Player\Player.h">
+      <Filter>Souce\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Input\Input.h">
+      <Filter>Souce\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameSetting\GameSetting.h">
+      <Filter>Souce\GameSetting</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Bullet\Bullet.h">
+      <Filter>Souce\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Collision\BulletCollision.h">
+      <Filter>Souce\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Bullet\BulletManager.h">
+      <Filter>Souce\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Enemy\Enemy.h">
+      <Filter>Souce\Enemy</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
