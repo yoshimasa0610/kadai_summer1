@@ -1,3 +1,34 @@
-﻿  Main.cpp
+﻿  BackGround.cpp
 C:\08_DxLib_VC3_24b\DxLib_VC\プロジェクトに追加すべきファイル_VC用\DxLib.h(3344,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  GP　シューティングゲーム制作.vcxproj -> C:\Users\student\source\repos\GP　シューティングゲーム制作\x64\Debug\GP　シューティングゲーム制作.exe
+  BossEnemy.cpp
+C:\08_DxLib_VC3_24b\DxLib_VC\プロジェクトに追加すべきファイル_VC用\DxLib.h(3344,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+  Bullet.cpp
+C:\08_DxLib_VC3_24b\DxLib_VC\プロジェクトに追加すべきファイル_VC用\DxLib.h(3344,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+  BulletManager.cpp
+  Enemy.cpp
+C:\08_DxLib_VC3_24b\DxLib_VC\プロジェクトに追加すべきファイル_VC用\DxLib.h(3344,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+  Input.cpp
+C:\08_DxLib_VC3_24b\DxLib_VC\プロジェクトに追加すべきファイル_VC用\DxLib.h(3344,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+  Main.cpp
+C:\08_DxLib_VC3_24b\DxLib_VC\プロジェクトに追加すべきファイル_VC用\DxLib.h(3344,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+C:\Users\student\OneDrive\ドキュメント\GitHub\kadai_summer1\Source\Main.cpp(38,24): warning C4244: '=': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\Users\student\OneDrive\ドキュメント\GitHub\kadai_summer1\Source\Main.cpp(61,15): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。
+  Player.cpp
+C:\08_DxLib_VC3_24b\DxLib_VC\プロジェクトに追加すべきファイル_VC用\DxLib.h(3344,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+C:\Users\student\OneDrive\ドキュメント\GitHub\kadai_summer1\Source\Player\Player.cpp(13,1): warning C4005: 'PLAYER_WIDTH': マクロが再定義されました。
+C:\Users\student\OneDrive\ドキュメント\GitHub\kadai_summer1\Source\Player\Player.h(3,1): message : 'PLAYER_WIDTH' の以前の定義を確認してください
+C:\Users\student\OneDrive\ドキュメント\GitHub\kadai_summer1\Source\Player\Player.cpp(14,1): warning C4005: 'PLAYER_HEIGHT': マクロが再定義されました。
+C:\Users\student\OneDrive\ドキュメント\GitHub\kadai_summer1\Source\Player\Player.h(4,1): message : 'PLAYER_HEIGHT' の以前の定義を確認してください
+C:\Users\student\OneDrive\ドキュメント\GitHub\kadai_summer1\Source\Player\Player.cpp(15,1): warning C4005: 'PLAYER_RADIUS': マクロが再定義されました。
+C:\Users\student\OneDrive\ドキュメント\GitHub\kadai_summer1\Source\Player\Player.h(5,1): message : 'PLAYER_RADIUS' の以前の定義を確認してください
+  GameClearScene.cpp
+C:\08_DxLib_VC3_24b\DxLib_VC\プロジェクトに追加すべきファイル_VC用\DxLib.h(3344,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+  GameOverScene.cpp
+C:\08_DxLib_VC3_24b\DxLib_VC\プロジェクトに追加すべきファイル_VC用\DxLib.h(3344,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+  PlayScene.cpp
+C:\08_DxLib_VC3_24b\DxLib_VC\プロジェクトに追加すべきファイル_VC用\DxLib.h(3344,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+  SceneManager.cpp
+  TitleScene.cpp
+C:\08_DxLib_VC3_24b\DxLib_VC\プロジェクトに追加すべきファイル_VC用\DxLib.h(3344,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+  コードを生成中...
+  GP　シューティングゲーム制作.vcxproj -> C:\Users\student\OneDrive\ドキュメント\GitHub\kadai_summer1\x64\Debug\GP　シューティングゲーム制作.exe

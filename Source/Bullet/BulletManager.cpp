@@ -1,5 +1,6 @@
 #include "Bullet.h"
 #include "../Collision/BulletCollision.h"
+#include "../Bullet/BulletManager.h"
 
 void InitBullet()
 {

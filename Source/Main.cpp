@@ -1,71 +1,78 @@
 #include "DxLib.h"
-#include "BackGround/BackGround.h"
-#include "Player/Player.h"
-#include "Input/Input.h"
 #include "GameSetting/GameSetting.h"
-#include "Bullet/BulletManager.h"
-#include "Enemy/Enemy.h"
+#include "Input/Input.h"
+#include "Scene/SceneManager.h"
 
-#define SCREEN_WIDTH        (1600)
-#define SCREEN_HEIGHT       (900)
-#define SCREEN_COLOR_DEPTH  (32)
-
-int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) 
+// プログラムは WinMain から始まります
+int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_  HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd)
 {
-    // ウィンドウモード・画面サイズ設定
-    ChangeWindowMode(TRUE);
-    SetGraphMode(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_COLOR_DEPTH);
-    if (DxLib_Init() == -1) return -1;
-    SetDrawScreen(DX_SCREEN_BACK);
+	// ウィンドウモードON
+	ChangeWindowMode(TRUE);
 
-    // 各種初期化
-    InitBackGround();
-    InitPlayer();
-    LoadPlayer();
-    StartPlayer();
-    InitInput();
-    InitBullet();
-    LoadBullet();
-    InitEnemy();         // 敵の初期化（出現タイマー含む）
+	// 画面解像度の設定
+	SetGraphMode(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_COLOR_DEPTH);
 
-    // メインループ
-    while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0)
-    {
-        // 画面クリア
-        ClearDrawScreen();
+	if (DxLib_Init() == -1)		// ＤＸライブラリ初期化処理
+	{
+		return -1;			// エラーが起きたら直ちに終了
+	}
 
-        // 入力更新
-        UpdateInput();
+	// ウィンドウサイズ設定
+	SetWindowSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
-        // 背景・プレイヤー更新
-        UpdateBackGround();
-        StepPlayer();
-        UpdatePlayer();
+	// 透過色の設定
+	SetTransColor(TRANS_COLOR_R, TRANS_COLOR_G, TRANS_COLOR_B);
 
-        // 敵の出現・移動・弾発射
-        UpdateEnemy();
+	// 描画先を裏画面にする
+	SetDrawScreen(DX_SCREEN_BACK);
 
-        // 弾（プレイヤー発射の管理）
-        StepBullet();
-        UpdateBullet();
+	// 入力システムを初期化
+	InitInput();
 
-        // === 描画 ===
-        DrawBackGround();
-        DrawPlayer();
-        DrawBullet();
-        DrawEnemy();  // 敵と敵の弾を含めて描画
+	float m_Time = 0.0f;
+	// ゲームのメインループ
+	while (ProcessMessage() >= 0)
+	{
+		//StartFrame
+		{
+			m_Time = GetNowCount();
+		}
 
-        // 画面反映
-        ScreenFlip();
-    }
+		// 画面をクリア
+		ClearDrawScreen();
 
-    // 終了処理
-    FinBackGround();
-    FinPlayer();
-    FinInput();
-    FinBullet();
-    DeleteEnemy();  // 敵・敵弾の解放
+		// 入力を更新
+		UpdateInput();
 
-    DxLib_End();
-    return 0;
+		// シーン管理の更新
+		SceneManagerUpdate();
+
+		// 入力システムの描画
+		DrawInput();
+
+		// エスケープキーで終了
+		if (CheckHitKey(KEY_INPUT_ESCAPE)) break;
+		{
+
+		}
+
+		//WaitFrame()
+		{
+			int before = m_Time;
+			int after = GetNowCount();
+			int interval = (int)((1000 / 1000) - (after - before));
+			if (interval > 0) { WaitTimer(interval); }
+		}
+
+		// 画面フリップ
+		ScreenFlip();
+	}
+
+	// 入力システムの終了
+	FinInput();
+
+
+	DxLib_End();				// ＤＸライブラリ使用の終了処理
+
+	return 0;				// ソフトの終了 
 }

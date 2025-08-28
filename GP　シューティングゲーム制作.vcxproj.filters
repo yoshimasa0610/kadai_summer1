@@ -25,6 +25,24 @@
     <Filter Include="Souce\Enemy">
       <UniqueIdentifier>{c4e7a292-435f-4e09-a4e1-bc4e75672a1e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Souce\BossEnemy">
+      <UniqueIdentifier>{34ff3d58-6a95-4f95-9e46-975c659188cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Souce\Scene">
+      <UniqueIdentifier>{8443e5ee-899c-4327-9515-786baa6fbe98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Souce\Scene\GameClear">
+      <UniqueIdentifier>{4fddaac9-cdbe-4460-9865-f00af4a2845d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Souce\Scene\GameOver">
+      <UniqueIdentifier>{81ae68fd-f6e3-4850-b60c-f71afaaae7d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Souce\Scene\Play">
+      <UniqueIdentifier>{c77a3891-6283-4883-8c49-b42d3e4e0224}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Souce\Scene\Title">
+      <UniqueIdentifier>{eb7ae5e8-b141-4940-82ec-c8120168f230}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\BackGround\BackGround.cpp">
@@ -47,6 +65,24 @@
     </ClCompile>
     <ClCompile Include="Source\Enemy\Enemy.cpp">
       <Filter>Souce\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Boss Enemy\BossEnemy.cpp">
+      <Filter>Souce\BossEnemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene\SceneManager.cpp">
+      <Filter>Souce\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene\Title\TitleScene.cpp">
+      <Filter>Souce\Scene\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene\Play\PlayScene.cpp">
+      <Filter>Souce\Scene\Play</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene\GameClear\GameClearScene.cpp">
+      <Filter>Souce\Scene\GameClear</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene\GameOver\GameOverScene.cpp">
+      <Filter>Souce\Scene\GameOver</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +109,24 @@
     </ClInclude>
     <ClInclude Include="Source\Enemy\Enemy.h">
       <Filter>Souce\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Boss Enemy\BossEnemy.h">
+      <Filter>Souce\BossEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\SceneManager.h">
+      <Filter>Souce\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\Title\TitleScene.h">
+      <Filter>Souce\Scene\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\Play\PlayScene.h">
+      <Filter>Souce\Scene\Play</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\GameClear\GameClearScene.h">
+      <Filter>Souce\Scene\GameClear</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\GameOver\GameOverScene.h">
+      <Filter>Souce\Scene\GameOver</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -11,3 +11,5 @@ void FinBullet();
 
 // ’e”­ŽË
 void FireBullet(BulletCategory category, int typeID, FireBulletData fireData, BulletCollisionTag tag);
+
+void ClearAllStraightBullets();

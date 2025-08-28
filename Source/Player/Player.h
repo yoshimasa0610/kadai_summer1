@@ -1,5 +1,3 @@
-#pragma once
-
 
 //プレイヤーサイズ
 #define PLAYER_WIDTH    (100.0f)

@@ -12,20 +12,23 @@ enum BulletCategory
 enum BulletCollisionTag
 {
 	BULLET_COLLISION_TAG_PLAYER,	// プレイヤーが撃った弾
+	BULLET_COLLISION_TAG_ENEMY,		// 敵が撃った弾
 };
 
 // 直線弾の種類
 enum StraightBulletType
 {
-	STRAIGHT_BULLET_TYPE_PLAYER_NORMAL,	// プレイヤーの通常弾
+	STRAIGHT_BULLET_TYPE_PLAYER_NORMAL, // プレイヤーの通常弾
+	STRAIGHT_BULLET_TYPE_ENEMY_NORMAL,  // 敵の通常弾
+	STRAIGHT_BULLET_TYPE_BOSS,          // ボス専用弾を追加
 	STRAIGHT_BULLET_TYPE_MAX
 };
 
 // 直線弾のデータ
 struct StraightBulletData
 {
-	int handle;
-	int life;
+	int handle;              // 画像ハンドル
+	int life;                // 弾の寿命
 	float posX;
 	float posY;
 	float moveX;
@@ -34,7 +37,7 @@ struct StraightBulletData
 	float height;
 	float radius;
 	bool active;
-	BulletCollisionTag tag;
+	BulletCollisionTag tag;  // 当たり判定用タグ
 };
 
 // 発射に必要なデータ
@@ -46,3 +49,5 @@ struct FireBulletData
 	float moveX;
 	float moveY;
 };
+
+extern StraightBulletData g_StraightBulletData[STRAIGHT_BULLET_MAX];

@@ -39,7 +39,7 @@ void UpdateInput()
 	}
 	if (CheckHitKey(KEY_INPUT_SPACE))
 	{
-		g_InputState |= KEY_Z;
+		g_InputState |= KEY_SPACE;
 	}
 }
 
