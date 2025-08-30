@@ -1,2 +1,4 @@
-﻿  BossEnemy.cpp
-  GP　シューティングゲーム制作.vcxproj -> C:\Users\owner\Downloads\kadai_summer1-main\kadai_summer1-main\x64\Debug\GP　シューティングゲーム制作.exe
+﻿  Player.cpp
+C:\Users\owner\Downloads\kadai_summer1-main\kadai_summer1\Source\Player\Player.cpp(162,102): warning C4244: '=': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\Users\owner\Downloads\kadai_summer1-main\kadai_summer1\Source\Player\Player.cpp(165,103): warning C4244: '=': 'int' から 'float' への変換です。データが失われる可能性があります。
+  GP　シューティングゲーム制作.vcxproj -> C:\Users\owner\Downloads\kadai_summer1-main\kadai_summer1\x64\Debug\GP　シューティングゲーム制作.exe

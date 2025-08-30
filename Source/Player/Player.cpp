@@ -5,18 +5,16 @@
 #include "../Bullet/Bullet.h"
 #include "../Bullet/BulletManager.h"
 #include "../Collision/BulletCollision.h"
+#include "../Scene/SceneManager.h"
 
 #define PLAYER_MOVE_SPEED 6.0f
 #define PLAYER_BULLET_INTERVAL 20
 #define PLAYER_BULLET_SPEED 15.0f
 #define PLAYER_BULLET_MAX 16
-#define PLAYER_WIDTH 50    // プレイヤーの幅
-#define PLAYER_HEIGHT 50   // プレイヤーの高さ
-#define PLAYER_RADIUS (PLAYER_WIDTH / 2.0f)  // プレイヤーの半径（仮）
 #define PLAYER_MOVE_MIN_X 0
-#define PLAYER_MOVE_MAX_X 1600   // 可動範囲の右端
+#define PLAYER_MOVE_MAX_X 1600
 #define PLAYER_MOVE_MIN_Y 0
-#define PLAYER_MOVE_MAX_Y 800    // 可動範囲の下端
+#define PLAYER_MOVE_MAX_Y 800
 
 static PlayerData g_PlayerData = { 0 };
 
@@ -27,10 +25,12 @@ typedef struct {
 } PlayerBullet;
 
 static PlayerBullet g_PlayerBullets[PLAYER_BULLET_MAX] = { 0 };
-
 static int g_BulletHandle = -1;
-
 int g_LifeIconHandle = -1;
+
+int g_PlayerWidth = 0;
+int g_PlayerHeight = 0;
+float g_PlayerRadius = 0.0f;
 
 void InitPlayer() {
     g_PlayerData.active = false;
@@ -53,7 +53,11 @@ void InitPlayer() {
 void LoadPlayer() {
     g_PlayerData.handle = LoadGraph("Data/Player/クラゲ.png");
     g_BulletHandle = LoadGraph("Data/Bullet/弾.png");
-    g_LifeIconHandle = LoadGraph("Data/UI/クラゲ.png");  // ハートのアイコンをロード
+    g_LifeIconHandle = LoadGraph("Data/UI/クラゲ.png");
+
+    // 画像サイズ取得
+    GetGraphSize(g_PlayerData.handle, &g_PlayerWidth, &g_PlayerHeight);
+    g_PlayerRadius = g_PlayerWidth / 2.0f; // 半径は画像幅の半分
 }
 
 void StartPlayer() {
@@ -66,47 +70,44 @@ void StartPlayer() {
     g_PlayerData.invisibleTimer = 0;
 }
 
+// 衝突判定チェック（縮小済み半径）
 void CheckPlayerBulletCollision() {
-    if (!g_PlayerData.active || g_PlayerData.invisible) return;  // 無敵状態のプレイヤーは判定しない
+    if (!g_PlayerData.active || g_PlayerData.invisible) return;
 
-    // プレイヤーの中心位置と半径を計算
-    float px = g_PlayerData.posX + PLAYER_WIDTH / 2.0f;
-    float py = g_PlayerData.posY + PLAYER_HEIGHT / 2.0f;
-    float pr = PLAYER_RADIUS;  // プレイヤーの半径
+    float shrinkRate = 0.8f; // 半径を80%に縮小
+    float px = g_PlayerData.posX + g_PlayerWidth / 2.0f;
+    float py = g_PlayerData.posY + g_PlayerHeight / 2.0f;
+    float pr = g_PlayerRadius * shrinkRate; // 縮小後の半径
 
-    // すべての弾に対してチェック
     for (int i = 0; i < STRAIGHT_BULLET_MAX; i++) {
         StraightBulletData& bullet = g_StraightBulletData[i];
-
-        // 弾がアクティブで、プレイヤーが撃った弾でない場合のみチェック
         if (!bullet.active || bullet.tag != BULLET_COLLISION_TAG_ENEMY) continue;
 
-        // 弾とプレイヤーの距離計算（円形当たり判定）
-        float dx = bullet.posX + bullet.radius - px;
-        float dy = bullet.posY + bullet.radius - py;
+        float bx = bullet.posX;
+        float by = bullet.posY;
+
+        float dx = bx - px;
+        float dy = by - py;
         float distanceSq = dx * dx + dy * dy;
         float radiusSum = bullet.radius + pr;
 
-        // 当たり判定
         if (distanceSq < radiusSum * radiusSum) {
-            // 衝突した場合の処理
-            StraightBulletHitPlayer(i);  // 弾を消す
+            // 衝突処理
+            StraightBulletHitPlayer(i);
 
-            // プレイヤーのライフ減少
             g_PlayerData.life--;
-            g_PlayerData.invisible = true;  // 無敵状態にする
-            g_PlayerData.invisibleTimer = 120;  // 無敵時間（例：120フレーム）
+            g_PlayerData.invisible = true;
+            g_PlayerData.invisibleTimer = 120;
 
-            // プレイヤーが死亡した場合の処理
             if (g_PlayerData.life <= 0) {
-                g_PlayerData.active = false;  // プレイヤーを非アクティブにする
-                // ここでゲームオーバー処理などを実装する
+                g_PlayerData.active = false;
+                ChangeScene(SCENE_GAME_OVER);
             }
-
-            break;  // 1個の弾が当たったら終了
+            break;
         }
     }
 }
+
 
 void StepPlayer() {
     if (!g_PlayerData.active) return;
@@ -114,13 +115,11 @@ void StepPlayer() {
     float inputX = 0.0f;
     float inputY = 0.0f;
 
-    if (g_PlayerData.bulletIntervalTimer > 0) {
-        g_PlayerData.bulletIntervalTimer--;
-    }
+    if (g_PlayerData.bulletIntervalTimer > 0) g_PlayerData.bulletIntervalTimer--;
 
-    if (IsInputKey(KEY_UP))    inputY = -1.0f;
-    if (IsInputKey(KEY_DOWN))  inputY = 1.0f;
-    if (IsInputKey(KEY_LEFT))  inputX = -1.0f;
+    if (IsInputKey(KEY_UP)) inputY = -1.0f;
+    if (IsInputKey(KEY_DOWN)) inputY = 1.0f;
+    if (IsInputKey(KEY_LEFT)) inputX = -1.0f;
     if (IsInputKey(KEY_RIGHT)) inputX = 1.0f;
 
     float lenSq = inputX * inputX + inputY * inputY;
@@ -135,18 +134,16 @@ void StepPlayer() {
 
     if (IsInputKey(KEY_SPACE) && g_PlayerData.bulletIntervalTimer <= 0) {
         FireBulletData fireData;
-        fireData.posX = g_PlayerData.posX + PLAYER_WIDTH;
-        fireData.posY = g_PlayerData.posY + PLAYER_HEIGHT / 2;
+        fireData.posX = g_PlayerData.posX + g_PlayerWidth;
+        fireData.posY = g_PlayerData.posY + g_PlayerHeight / 2;
         fireData.moveX = PLAYER_BULLET_SPEED;
-        fireData.moveY = 0.0f;  
-        fireData.life = 120;  // 弾の寿命（例：120フレーム）
+        fireData.moveY = 0.0f;
+        fireData.life = 120;
 
         FireStraightBullet(STRAIGHT_BULLET_TYPE_PLAYER_NORMAL, fireData, BULLET_COLLISION_TAG_PLAYER);
-
         g_PlayerData.bulletIntervalTimer = PLAYER_BULLET_INTERVAL;
     }
 
-    // プレイヤーと弾の当たり判定をチェック
     CheckPlayerBulletCollision();
 }
 
@@ -155,44 +152,31 @@ void UpdatePlayer() {
 
     if (g_PlayerData.invisible) {
         g_PlayerData.invisibleTimer--;
-        if (g_PlayerData.invisibleTimer <= 0) {
-            g_PlayerData.invisible = false;
-        }
+        if (g_PlayerData.invisibleTimer <= 0) g_PlayerData.invisible = false;
     }
 
     g_PlayerData.posX += g_PlayerData.moveX;
     g_PlayerData.posY += g_PlayerData.moveY;
 
-    // --- 可動域の制限 ---
-    if (g_PlayerData.posX < PLAYER_MOVE_MIN_X)
-        g_PlayerData.posX = PLAYER_MOVE_MIN_X;
-    if (g_PlayerData.posX > PLAYER_MOVE_MAX_X - PLAYER_WIDTH)
-        g_PlayerData.posX = PLAYER_MOVE_MAX_X - PLAYER_WIDTH;
+    if (g_PlayerData.posX < PLAYER_MOVE_MIN_X) g_PlayerData.posX = PLAYER_MOVE_MIN_X;
+    if (g_PlayerData.posX > PLAYER_MOVE_MAX_X - g_PlayerWidth) g_PlayerData.posX = PLAYER_MOVE_MAX_X - g_PlayerWidth;
 
-    if (g_PlayerData.posY < PLAYER_MOVE_MIN_Y)
-        g_PlayerData.posY = PLAYER_MOVE_MIN_Y;
-    if (g_PlayerData.posY > PLAYER_MOVE_MAX_Y - PLAYER_HEIGHT)
-        g_PlayerData.posY = PLAYER_MOVE_MAX_Y - PLAYER_HEIGHT;
+    if (g_PlayerData.posY < PLAYER_MOVE_MIN_Y) g_PlayerData.posY = PLAYER_MOVE_MIN_Y;
+    if (g_PlayerData.posY > PLAYER_MOVE_MAX_Y - g_PlayerHeight) g_PlayerData.posY = PLAYER_MOVE_MAX_Y - g_PlayerHeight;
 
-    // --- プレイヤーの弾の更新 ---
     for (int i = 0; i < PLAYER_BULLET_MAX; i++) {
         if (g_PlayerBullets[i].active) {
             g_PlayerBullets[i].x += g_PlayerBullets[i].speedX;
-            if (g_PlayerBullets[i].x > 1920) {
-                g_PlayerBullets[i].active = false;
-            }
+            if (g_PlayerBullets[i].x > 1920) g_PlayerBullets[i].active = false;
         }
     }
 }
 
-void DrawPlayer()
-{
+void DrawPlayer() {
     if (!g_PlayerData.active) return;
 
-    // 無敵時は点滅させる
-    if (g_PlayerData.invisible) {
-        if ((g_PlayerData.invisibleTimer / 5) % 2 == 0) return;
-    }
+    // 無敵時は点滅
+    if (g_PlayerData.invisible && (g_PlayerData.invisibleTimer / 5) % 2 == 0) return;
 
     // プレイヤー描画
     DrawGraph((int)g_PlayerData.posX, (int)g_PlayerData.posY, g_PlayerData.handle, TRUE);
@@ -209,34 +193,22 @@ void DrawPlayer()
         DrawGraph(50 + i * 80, 50, g_LifeIconHandle, TRUE);
     }
 
-    // --- 当たり判定の可視化 ---
-    // プレイヤーの中心
-    float px = g_PlayerData.posX + PLAYER_WIDTH / 2.0f;
-    float py = g_PlayerData.posY + PLAYER_HEIGHT / 2.0f;
+    // --- 当たり判定の可視化（画像中心・少し縮小） ---
+    float shrinkRate = 0.8f; // 半径を80%に縮小
+    float px = g_PlayerData.posX + g_PlayerWidth / 2.0f;
+    float py = g_PlayerData.posY + g_PlayerHeight / 2.0f;
+    float radius = g_PlayerRadius * shrinkRate;
 
-    // 半透明の円を描画（赤）
-    SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);  // 半透明
-    DrawCircle((int)px, (int)py, (int)PLAYER_RADIUS, GetColor(255, 0, 0), FALSE);
-    SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0); // ブレンド解除
+    SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
+    DrawCircle((int)px, (int)py, (int)radius, GetColor(255, 0, 0), FALSE);
+    SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 
 
-void FinPlayer() 
-{
-    if (g_PlayerData.handle != -1) {
-        DeleteGraph(g_PlayerData.handle);
-        g_PlayerData.handle = -1;
-    }
-    if (g_BulletHandle != -1) {
-        DeleteGraph(g_BulletHandle);
-        g_BulletHandle = -1;
-    }
-    if (g_LifeIconHandle != -1) {
-        DeleteGraph(g_LifeIconHandle);  // ハートのアイコン画像を解放
-        g_LifeIconHandle = -1;
-    }
+void FinPlayer() {
+    if (g_PlayerData.handle != -1) { DeleteGraph(g_PlayerData.handle); g_PlayerData.handle = -1; }
+    if (g_BulletHandle != -1) { DeleteGraph(g_BulletHandle); g_BulletHandle = -1; }
+    if (g_LifeIconHandle != -1) { DeleteGraph(g_LifeIconHandle); g_LifeIconHandle = -1; }
 }
 
-PlayerData* GetPlayer() {
-    return &g_PlayerData;
-}
+PlayerData* GetPlayer() { return &g_PlayerData; }
